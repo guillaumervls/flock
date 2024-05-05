@@ -1,0 +1,25 @@
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app            = "${APP_NAME}-flock-example-web"
+primary_region = "$REGION"
+
+[env]
+DB_HOST = "${APP_NAME}-flock-example-db.internal"
+
+[http_service]
+internal_port        = 8000
+force_https          = true
+auto_stop_machines   = true
+auto_start_machines  = true
+min_machines_running = 0
+processes            = ["app"]
+
+[[flock.dependencies.apps]] # wait for the deployment of other apps
+name = "${APP_NAME}-flock-example-db"
+
+[[flock.dependencies.secrets]]
+name        = "DB_PASSWORD"
+source.app  = "${APP_NAME}-flock-example-db"
+source.name = "POSTGRES_PASSWORD"

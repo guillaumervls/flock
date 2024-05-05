@@ -1,0 +1,19 @@
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app            = "${APP_NAME}-flock-example-db"
+primary_region = "$REGION"
+
+build.image = "postgres:alpine"
+
+[env]
+PGDATA = "/var/lib/postgresql/data/pgdata"
+
+[mounts]
+source       = 'data'
+destination  = '/var/lib/postgresql/data'
+initial_size = '1gb'
+
+[[flock.dependencies.secrets]]
+name = "POSTGRES_PASSWORD"

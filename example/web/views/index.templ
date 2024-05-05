@@ -1,0 +1,33 @@
+package views
+
+import "github.com/guillaumervls/flock/example/web/models"
+
+templ Index(todos []models.Todo) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta name="color-scheme" content="light dark"/>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"/>
+			<title>Todo list</title>
+		</head>
+		<body>
+			<main class="container">
+				<h1>Todo list:</h1>
+				if len(todos) == 0 {
+					<small><em>– No task yet: add one below ⬇️ –</em></small>
+				}
+				<ul>
+					for _, todo := range todos {
+						<li>{ todo.Task }</li>
+					}
+				</ul>
+				<form action="/" method="post">
+					<input autofocus type="text" name="task" placeholder="New task..." required/>
+					<button type="submit">Add</button>
+				</form>
+			</main>
+		</body>
+	</html>
+}
